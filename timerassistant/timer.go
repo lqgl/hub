@@ -1,6 +1,6 @@
-package timerassitant
+package timerassistant
 
-type TimerAssitant interface {
+type TimerAssistant interface {
 	AddCallBack(*CallInfo)
 	DelCallBack(*CallInfo)
 	Loop()

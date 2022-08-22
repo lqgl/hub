@@ -12,8 +12,10 @@ type TOwner struct {
 	o        timerassistant.TimerAssistant
 }
 
-func (t *TOwner) Execute(func()) {
+// Execute callback func
+func (t *TOwner) Execute(fn func()) {
 	fmt.Println("Executed!")
+	fn()
 }
 
 func (t TOwner) loop() {
@@ -30,17 +32,19 @@ func TestTimerAssistant(t *testing.T) {
 		resumeCh: make(chan func(), 1),
 		o:        NewTimerAssistant(time.Second),
 	}
-	tn.o.AddCallBack(&timerassistant.CallInfo{
+	onceCall := &timerassistant.CallInfo{
 		Category: &timerassistant.Once{
-			Hour: 0,
-			Min:  0,
+			Hour: 11,
+			Min:  45,
 			Sec:  0,
 		},
-		Fn: func() {
-			fmt.Println("fn inner")
-		},
 		ResumeCallCh: tn.resumeCh,
-	})
+	}
+	onceCall.Fn = func() {
+		fmt.Println("inner fn execute!")
+		tn.o.DelCallBack(onceCall) // because in this case only run once
+	}
+	tn.o.AddCallBack(onceCall)
 	go tn.loop()
 	go tn.o.Loop()
 	select {}

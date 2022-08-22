@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/json-iterator/go v1.1.12
+	github.com/nsqio/go-nsq v1.1.0
 	go.mongodb.org/mongo-driver v1.10.0
 )
 
